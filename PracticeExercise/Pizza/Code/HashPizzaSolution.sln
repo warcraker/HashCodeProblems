@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashPizza", "HashPizza.csproj", "{574F8848-526B-4AFB-AEC6-42404D049743}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashCode.Common", "..\..\..\GlobalUtils\GlobalUtils\HashCode.Common.csproj", "{68B49808-91A3-4060-A936-5AF858BEEC8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{574F8848-526B-4AFB-AEC6-42404D049743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{574F8848-526B-4AFB-AEC6-42404D049743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{574F8848-526B-4AFB-AEC6-42404D049743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B49808-91A3-4060-A936-5AF858BEEC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B49808-91A3-4060-A936-5AF858BEEC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B49808-91A3-4060-A936-5AF858BEEC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B49808-91A3-4060-A936-5AF858BEEC8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
