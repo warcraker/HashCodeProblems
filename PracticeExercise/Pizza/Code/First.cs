@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using static HashPizza.Utils;
+using static HashPizza.OldUtils;
 
 namespace HashPizza
 {

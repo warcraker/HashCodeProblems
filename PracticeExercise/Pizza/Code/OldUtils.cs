@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace HashPizza
 {
-    public class Utils
+    public class OldUtils
     {
-        static Utils()
+        static OldUtils()
         {
             _globalTimer = Stopwatch.StartNew();
         }
@@ -52,10 +52,10 @@ namespace HashPizza
             string[] inputValues = lines[0].Split(' ');
 
             Pizza P = new Pizza(
-                ParseNumber(inputValues[0]),
-                ParseNumber(inputValues[1]),
-                ParseNumber(inputValues[2]),
-                ParseNumber(inputValues[3]));
+                ParseShort(inputValues[0]),
+                ParseShort(inputValues[1]),
+                ParseShort(inputValues[2]),
+                ParseShort(inputValues[3]));
 
             string[] pizzaLines = lines.Skip(1).ToArray();
             for (short row = 0; row < P.R; row++)
@@ -140,7 +140,7 @@ namespace HashPizza
             Console.WriteLine("Press enter to close...");
             Console.ReadLine();
         }
-        public static short ParseNumber(string text)
+        public static short ParseShort(string text)
         {
             return short.Parse(text);
         }
