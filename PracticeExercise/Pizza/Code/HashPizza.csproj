@@ -35,7 +35,7 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Pizza.SlicePicker</StartupObject>
+    <StartupObject>HashPizza.Tester</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,6 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GlobalUtils\GlobalUtils\HashCode.Common.csproj">
+      <Project>{68b49808-91a3-4060-a936-5af858beec8a}</Project>
+      <Name>HashCode.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
