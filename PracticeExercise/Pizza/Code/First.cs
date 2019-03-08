@@ -114,7 +114,8 @@ namespace HashPizza
                 }
             }
 
-            if(BeginConditionalSection("Save all slices to file"))
+
+            BeginSection("Save all slices to file");
             {
                 string outPath = Path.Combine(args[0], "output");
                 Directory.CreateDirectory(outPath);
