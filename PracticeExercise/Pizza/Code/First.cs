@@ -32,19 +32,20 @@ namespace HashPizza
                 {
                     for (short w = 1; w <= P.C; w++)
                     {
-                        if ((h * w) < minimumSliceArea) continue;
+                        int sliceArea = h * w;
 
-                        if ((h * w) > P.H) continue;
-
+                        if (minimumSliceArea <= sliceArea && sliceArea <= P.H)
+                        {
                         validSlicesList.AddRange(GenerateSlices(h, w, P.L));
                     }
+                }
                 }
 
                 validSlices = validSlicesList.ToArray();
                 Console.WriteLine($"Valid slices = {validSlices.Length}");
             }
 
-            BeginSection("Legal slices");
+            BeginSection("Legal slices placement");
             int[][][] legalSlices; // [row][col][SliceNumbers]
             {
                 legalSlices = new int[P.R][][];
@@ -54,10 +55,10 @@ namespace HashPizza
                     legalSlices[row] = new int[P.C][];
                 }
 
-                for (int pRow = 0; pRow < P.R; pRow++)
+                for (int pizzaRow = 0; pizzaRow < P.R; pizzaRow++)
                 {
-                    Console.WriteLine($"Row #{pRow}");
-                    for (int pCol = 0; pCol < P.C; pCol++)
+                    Console.WriteLine($"Row #{pizzaRow}");
+                    for (int pizzaCol = 0; pizzaCol < P.C; pizzaCol++)
                     {
                         List<int> cellValidPermutations = new List<int>();
                         for (int sliceNumber = 0; sliceNumber < validSlices.Length; sliceNumber++)
@@ -65,25 +66,26 @@ namespace HashPizza
                             bool[][] slice = validSlices[sliceNumber];
 
                             int height = slice.Length;
-                            if (height + pRow > P.R) continue;
-
                             int width = slice[0].Length;
-                            if (width + pCol > P.C) continue;
 
+                            if (height + pizzaRow <= P.R && width + pizzaCol <= P.C)
+                            {
                             bool isValid = true;
 
-                            for (int sRow = 0; sRow < height; sRow++)
+                                for (int sliceRow = 0; sliceRow < height; sliceRow++)
                             {
-                                for (int sCol = 0; sCol < width; sCol++)
+                                    for (int sliceCol = 0; sliceCol < width; sliceCol++)
                                 {
-                                    if (slice[sRow][sCol] != P[pRow + sRow][pCol + sCol])
+                                        if (slice[sliceRow][sliceCol] != P[pizzaRow + sliceRow][pizzaCol + sliceCol])
                                     {
                                         isValid = false;
                                         break;
                                     }
-
                                 }
-                                if (!isValid) break;
+                                    if (!isValid)
+                                    {
+                                        break;
+                                    }
                             }
 
                             if (isValid)
@@ -91,7 +93,8 @@ namespace HashPizza
                                 cellValidPermutations.Add(sliceNumber);
                             }
                         }
-                        legalSlices[pRow][pCol] = cellValidPermutations.ToArray();
+                        }
+                        legalSlices[pizzaRow][pizzaCol] = cellValidPermutations.ToArray();
                     }
                 }
             }
