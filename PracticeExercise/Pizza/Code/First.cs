@@ -188,15 +188,14 @@ namespace HashPizza
 
         static IEnumerable<bool[][]> GenerateSlices(short height, short width, short minIngredients)
         {
-            int seed = 1;
-            seed = seed << (height * width);
+            int seed = 1 << (height * width);
             int initialMask = seed >> 1;
             seed--;
 
             do
             {
-                ushort mushrooms = 0;
-                ushort tomatoes = 0;
+                short mushrooms = 0;
+                short tomatoes = 0;
                 bool[][] slice = new bool[height][];
                 for (int row = 0; row < height; row++)
                 {
