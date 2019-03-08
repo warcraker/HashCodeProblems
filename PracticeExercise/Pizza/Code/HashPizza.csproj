@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SlicePicker.cs" />
     <Compile Include="OldUtils.cs" />
     <Compile Include="First.cs" />
     <Compile Include="Pizza.cs" />
