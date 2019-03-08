@@ -20,57 +20,6 @@ namespace HashPizza
         static Stopwatch _sectionTimer = new Stopwatch();
         static string _currentSection;
 
-        public static Pizza ReadInputFile(string rootPath)
-        {
-            Console.WriteLine("[1] example.in");
-            Console.WriteLine("[2] small.in");
-            Console.WriteLine("[3] medium.in");
-            Console.WriteLine("[4] big.in");
-
-            string path = Path.Combine(rootPath, "input");
-            string filename = "";
-            switch (Console.ReadKey().KeyChar)
-            {
-                case '1':
-                    filename = "example.in";
-                    break;
-                case '2':
-                    filename = "small.in";
-                    break;
-                case '3':
-                    filename = "medium.in";
-                    break;
-                case '4':
-                    filename = "big.in";
-                    break;
-                default:
-                    throw new Exception("Invalid option");
-            }
-            Console.WriteLine();
-            path = Path.Combine(path, filename);
-
-            string[] lines = File.ReadAllLines(path);
-            string[] inputValues = lines[0].Split(' ');
-
-            Pizza P = new Pizza(
-                short.Parse(inputValues[0]),
-                short.Parse(inputValues[1]),
-                short.Parse(inputValues[2]),
-                short.Parse(inputValues[3]));
-
-            string[] pizzaLines = lines.Skip(1).ToArray();
-            for (short row = 0; row < P.R; row++)
-            {
-                char[] rowChars = pizzaLines[row].ToCharArray();
-                for (short col = 0; col < P.C; col++)
-                {
-                    P[row][col] = rowChars[col] == 'T';
-                }
-            }
-
-            return P;
-        }
-
         public static void BeginSection(string section)
         {
             PrintPreviousSectionEnd();

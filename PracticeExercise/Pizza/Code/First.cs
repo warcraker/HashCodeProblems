@@ -42,14 +42,14 @@ namespace HashPizza
                 }
                 Console.WriteLine();
                 path = Path.Combine(path, filename);
-                P = ReadInputFile(path);
+                P = new Pizza(path);
             }
 #if DEBUG
 
             if (BeginConditionalSection("Print file loaded"))
             {
                 Console.WriteLine($"R:{P.R}; C:{P.C}; L:{P.L}; H:{P.H}");
-                PrintSlice(P.WholePizza, 0);
+                PrintSlice(P.Cells, 0);
             }
 
 #endif
