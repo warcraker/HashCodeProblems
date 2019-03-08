@@ -18,8 +18,37 @@ namespace HashPizza
         static void Main(string[] args)
         {
             BeginSection("File load");
-            Pizza P = ReadInputFile(args[0]);
+            Pizza P;
+            {
+                // TODO use ProblemFiles class
+                Console.WriteLine("[1] example.in");
+                Console.WriteLine("[2] small.in");
+                Console.WriteLine("[3] medium.in");
+                Console.WriteLine("[4] big.in");
 
+                string path = Path.Combine(args[0], "input");
+                string filename = "";
+                switch (Console.ReadKey().KeyChar)
+                {
+                    case '1':
+                        filename = "example.in";
+                        break;
+                    case '2':
+                        filename = "small.in";
+                        break;
+                    case '3':
+                        filename = "medium.in";
+                        break;
+                    case '4':
+                        filename = "big.in";
+                        break;
+                    default:
+                        throw new Exception("Invalid option");
+                }
+                Console.WriteLine();
+                path = Path.Combine(path, filename);
+                P = ReadInputFile(path);
+            }
 #if DEBUG
 
             if (BeginConditionalSection("Print file loaded"))
