@@ -1,9 +1,12 @@
-﻿using System;
+﻿using HashCode.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using static HashPizza.OldUtils;
+using static HashPizza.OldUtils; // TODO REMOVE
+using static HashCode.Common.Utils;
+
 
 namespace HashPizza
 {
@@ -15,13 +18,17 @@ namespace HashPizza
         static void Main(string[] args)
         {
             BeginSection("File load");
-            Pizza P = ReadInputFile(args[0]);           
+            Pizza P = ReadInputFile(args[0]);
+
+#if DEBUG
 
             if (BeginConditionalSection("Print file loaded"))
             {
                 Console.WriteLine($"R:{P.R}; C:{P.C}; L:{P.L}; H:{P.H}");
                 PrintSlice(P.WholePizza, 0);
             }
+
+#endif
 
             BeginSection("Valid slices creation");
             bool[][][] validSlices; // [SliceNumber][row][col]
@@ -36,9 +43,9 @@ namespace HashPizza
 
                         if (minimumSliceArea <= sliceArea && sliceArea <= P.H)
                         {
-                        validSlicesList.AddRange(GenerateSlices(h, w, P.L));
+                            validSlicesList.AddRange(GenerateSlices(h, w, P.L));
+                        }
                     }
-                }
                 }
 
                 validSlices = validSlicesList.ToArray();
@@ -52,7 +59,7 @@ namespace HashPizza
 
                 for (int row = 0; row < P.R; row++)
                 {
-                    legalSlices[row] = new int[P.C][];
+                    legalSlices[row] = new int[P.C][]; 
                 }
 
                 for (int pizzaRow = 0; pizzaRow < P.R; pizzaRow++)
@@ -70,36 +77,38 @@ namespace HashPizza
 
                             if (height + pizzaRow <= P.R && width + pizzaCol <= P.C)
                             {
-                            bool isValid = true;
+                                bool isValid = true;
 
                                 for (int sliceRow = 0; sliceRow < height; sliceRow++)
-                            {
-                                    for (int sliceCol = 0; sliceCol < width; sliceCol++)
                                 {
-                                        if (slice[sliceRow][sliceCol] != P[pizzaRow + sliceRow][pizzaCol + sliceCol])
+                                    for (int sliceCol = 0; sliceCol < width; sliceCol++)
                                     {
-                                        isValid = false;
-                                        break;
+                                        if (slice[sliceRow][sliceCol] != P[pizzaRow + sliceRow][pizzaCol + sliceCol])
+                                        {
+                                            isValid = false;
+                                            break;
+                                        }
                                     }
-                                }
                                     if (!isValid)
                                     {
                                         break;
                                     }
-                            }
+                                }
 
-                            if (isValid)
-                            {
-                                cellValidPermutations.Add(sliceNumber);
+                                if (isValid)
+                                {
+                                    cellValidPermutations.Add(sliceNumber);
+                                }
                             }
-                        }
                         }
                         legalSlices[pizzaRow][pizzaCol] = cellValidPermutations.ToArray();
                     }
                 }
             }
 
-            if(BeginConditionalSection("Print valid slice permutations"))
+#if DEBUG
+
+            if (BeginConditionalSection("Print valid slice permutations"))
             {
                 for (int row = 0; row < P.R; row++)
                 {
@@ -114,6 +123,7 @@ namespace HashPizza
                 }
             }
 
+#endif
 
             BeginSection("Save all slices to file");
             {
@@ -145,6 +155,7 @@ namespace HashPizza
 
             EndProgram();
         }
+
 
         static IEnumerable<bool[][]> GenerateSlices(short height, short width, short minIngredients)
         {
