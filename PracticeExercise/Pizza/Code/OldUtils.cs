@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HashCode.Common.Utils;
 
 namespace HashPizza
 {
@@ -52,10 +53,10 @@ namespace HashPizza
             string[] inputValues = lines[0].Split(' ');
 
             Pizza P = new Pizza(
-                ParseShort(inputValues[0]),
-                ParseShort(inputValues[1]),
-                ParseShort(inputValues[2]),
-                ParseShort(inputValues[3]));
+                short.Parse(inputValues[0]),
+                short.Parse(inputValues[1]),
+                short.Parse(inputValues[2]),
+                short.Parse(inputValues[3]));
 
             string[] pizzaLines = lines.Skip(1).ToArray();
             for (short row = 0; row < P.R; row++)
@@ -70,14 +71,6 @@ namespace HashPizza
             return P;
         }
 
-        public static void PrintPreviousSectionEnd()
-        {
-            SetColors(ConsoleColor.Green, ConsoleColor.Black);
-            Console.WriteLine($"[{_globalTimer.Elapsed}] FINISHED {_currentSection}");
-            Console.WriteLine($"TIME: {_sectionTimer.Elapsed}");
-            Console.WriteLine();
-            ResetColors();
-        }
         public static void BeginSection(string section)
         {
             PrintPreviousSectionEnd();
@@ -100,6 +93,7 @@ namespace HashPizza
             SetColors(ConsoleColor.Black, ConsoleColor.White);
             Console.WriteLine($"{section}? [y/n]");
             ResetColors();
+
             bool execute = Console.ReadKey().KeyChar == 'y';
             Console.WriteLine();
 
@@ -119,11 +113,6 @@ namespace HashPizza
             _globalTimer.Start();
             return execute;
         }
-        public static void SetColors(ConsoleColor foreground, ConsoleColor background)
-        {
-            Console.ForegroundColor = foreground;
-            Console.BackgroundColor = background;
-        }
         public static void ResetColors()
         {
             Console.ResetColor();
@@ -140,10 +129,19 @@ namespace HashPizza
             Console.WriteLine("Press enter to close...");
             Console.ReadLine();
         }
-        public static short ParseShort(string text)
-        {
-            return short.Parse(text);
-        }
 
+        private static void PrintPreviousSectionEnd()
+        {
+            SetColors(ConsoleColor.Green, ConsoleColor.Black);
+            Console.WriteLine($"[{_globalTimer.Elapsed}] FINISHED {_currentSection}");
+            Console.WriteLine($"TIME: {_sectionTimer.Elapsed}");
+            Console.WriteLine();
+            ResetColors();
+        }
+        private static void SetColors(ConsoleColor foreground, ConsoleColor background)
+        {
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+        }
     }
 }
