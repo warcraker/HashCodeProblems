@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using GlobalUtils;
 using HashCode.Common;
-using static HashPizza.OldUtils; // TODO REMOVE
 
 namespace HashPizza
 {
@@ -17,20 +16,12 @@ namespace HashPizza
         {
             Utils.SetLinesToRead(new string[] { "3" });
 
-            BeginSection("File load");
-            Pizza P;
-            {
-                string rootPath = Utils.GetAppRootFolder();
-                ProblemFiles files = new ProblemFiles(rootPath);
-                InputFile[] inputFiles = files.InputFiles.ToArray();
+            Utils.BeginSection("File load");
+            Pizza P = LoadPizza();
 
-                int selectedFileIndex = Utils.SelectOption(inputFiles.Select(f => f.FileName).ToArray());
-                string selectedFilePath = inputFiles[selectedFileIndex].FullPath;
-                P = new Pizza(selectedFilePath);
-            }
 #if DEBUG
 
-            if (BeginConditionalSection("Print file loaded"))
+            if (Utils.BeginConditionalSection("Print file loaded"))
             {
                 Console.WriteLine($"R:{P.R}; C:{P.C}; L:{P.L}; H:{P.H}");
                 PrintSlice(P.Cells, 0);
@@ -38,7 +29,7 @@ namespace HashPizza
 
 #endif
 
-            BeginSection("Valid slices creation");
+            Utils.BeginSection("Valid slices creation");
             bool[][][] validSlices; // [SliceNumber][row][col]
             {
                 List<bool[][]> validSlicesList = new List<bool[][]>();
@@ -60,7 +51,7 @@ namespace HashPizza
                 Console.WriteLine($"Valid slices = {validSlices.Length}");
             }
 
-            BeginSection("Legal slices placement");
+            Utils.BeginSection("Legal slices placement");
             int[][][] legalSlices; // [row][col][SliceNumbers]
             {
                 legalSlices = new int[P.R][][];
@@ -116,7 +107,7 @@ namespace HashPizza
 
 #if DEBUG
 
-            if (BeginConditionalSection("Print valid slice permutations"))
+            if (Utils.BeginConditionalSection("Print valid slice permutations"))
             {
                 for (int row = 0; row < P.R; row++)
                 {
@@ -133,7 +124,7 @@ namespace HashPizza
 
 #endif
 
-            BeginSection("Save all slices to file");
+            Utils.BeginSection("Save all slices to file");
             {
                 string outPath = Path.Combine(args[0], "output");
                 Directory.CreateDirectory(outPath);
@@ -161,9 +152,20 @@ namespace HashPizza
                 }
             }
 
-            EndProgram();
+            Utils.EndProgram();
         }
 
+        private static Pizza LoadPizza()
+        {
+            string rootPath = Utils.GetAppRootFolder();
+            ProblemFiles files = new ProblemFiles(rootPath);
+            InputFile[] inputFiles = files.InputFiles.ToArray();
+
+            int selectedFileIndex = Utils.SelectOption(inputFiles.Select(f => f.FileName).ToArray());
+            string selectedFilePath = inputFiles[selectedFileIndex].FullPath;
+
+            return new Pizza(selectedFilePath);
+        }
 
         static IEnumerable<bool[][]> GenerateSlices(short height, short width, short minIngredients)
         {
@@ -207,7 +209,8 @@ namespace HashPizza
                 seed--;
             } while (seed >= 0);
         }
-        static void PrintSlice(bool[][] slice, int sliceNumber)
+
+        private static void PrintSlice(bool[][] slice, int sliceNumber)
         {
             Console.WriteLine($"Slice #{sliceNumber}");
             for (int r = 0; r < slice.Length; r++)
