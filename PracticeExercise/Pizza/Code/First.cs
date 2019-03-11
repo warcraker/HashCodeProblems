@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using GlobalUtils;
+using HashCode.Common;
 using static HashPizza.OldUtils; // TODO REMOVE
 
 namespace HashPizza
@@ -12,37 +15,18 @@ namespace HashPizza
 
         static void Main(string[] args)
         {
+            Utils.SetLinesToRead(new string[] { "3" });
+
             BeginSection("File load");
             Pizza P;
             {
-                // TODO use ProblemFiles class
-                Console.WriteLine("[1] example.in");
-                Console.WriteLine("[2] small.in");
-                Console.WriteLine("[3] medium.in");
-                Console.WriteLine("[4] big.in");
+                string rootPath = Utils.GetAppRootFolder();
+                ProblemFiles files = new ProblemFiles(rootPath);
+                InputFile[] inputFiles = files.InputFiles.ToArray();
 
-                string path = Path.Combine(args[0], "input");
-                string filename = "";
-                switch (Console.ReadKey().KeyChar)
-                {
-                    case '1':
-                        filename = "example.in";
-                        break;
-                    case '2':
-                        filename = "small.in";
-                        break;
-                    case '3':
-                        filename = "medium.in";
-                        break;
-                    case '4':
-                        filename = "big.in";
-                        break;
-                    default:
-                        throw new Exception("Invalid option");
-                }
-                Console.WriteLine();
-                path = Path.Combine(path, filename);
-                P = new Pizza(path);
+                int selectedFileIndex = Utils.SelectOption(inputFiles.Select(f => f.FileName).ToArray());
+                string selectedFilePath = inputFiles[selectedFileIndex].FullPath;
+                P = new Pizza(selectedFilePath);
             }
 #if DEBUG
 

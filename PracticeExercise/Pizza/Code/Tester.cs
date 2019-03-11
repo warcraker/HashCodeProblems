@@ -11,19 +11,6 @@ namespace HashPizza
 {
     class Tester
     {
-        static void Main(string[] args)
-        {
-            ProblemFiles files = new ProblemFiles(Utils.GetAppRootFolder());
-
-            foreach (InputFile file in files.InputFiles)
-            {
-                Console.WriteLine($"{file.FileName} @ {file.FullPath}");
-            }
-
-            Console.WriteLine("Press enter to close...");
-            Console.ReadLine();
-        }
-
         public static bool ValidateOutput(string inputFilePath, string outputFilePath, out IList<string> errors)
         {
             Pizza P = null; // TODO use > public static Pizza ReadInputFile(string path)
