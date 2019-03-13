@@ -11,6 +11,7 @@ namespace HashPizza
         public short L { get; }
         public short H { get; }
         public bool[][] Cells { get; }
+        public string InputFileName { get; }
 
         public bool[] this[int r]
         {
@@ -19,6 +20,7 @@ namespace HashPizza
 
         public Pizza(string filePath)
         {
+            this.InputFileName = new FileInfo(filePath).Name;
             string[] lines = File.ReadAllLines(filePath);
             string[] inputValues = lines[0].Split(' ');
 
@@ -38,7 +40,6 @@ namespace HashPizza
                     this.Cells[row][col] = rowChars[col] == 'T';
                 }
             }
-
         }
     }
 }
