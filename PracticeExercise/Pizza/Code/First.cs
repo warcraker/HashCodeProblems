@@ -15,20 +15,10 @@ namespace HashPizza
 
         public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
-            Utils.SetLinesToRead(new string[] { "3" });
 
             Utils.BeginSection("File load");
             Pizza P = LoadPizza();
 
-#if DEBUG
-
-            if (Utils.BeginConditionalSection("Print file loaded"))
-            {
-                Console.WriteLine($"R:{P.R}; C:{P.C}; L:{P.L}; H:{P.H}");
-                PrintSlice(P.Cells, 0);
-            }
-
-#endif
 
             Utils.BeginSection("Valid slices creation");
             bool[][][] validSlices; // [SliceNumber][row][col]
@@ -106,24 +96,8 @@ namespace HashPizza
                 }
             }
 
-#if DEBUG
-
-            if (Utils.BeginConditionalSection("Print valid slice permutations"))
-            {
-                for (int row = 0; row < P.R; row++)
-                {
-                    for (int col = 0; col < P.C; col++)
-                    {
-                        Console.WriteLine($"Cell [{row},{col}]");
-                        foreach (int sliceNumber in legalSlices[row][col])
-                        {
-                            PrintSlice(validSlices[sliceNumber], sliceNumber);
-                        }
-                    }
-                }
             }
 
-#endif
 
             Utils.BeginSection("Save all slices to file");
             {
@@ -211,18 +185,7 @@ namespace HashPizza
             } while (seed >= 0);
         }
 
-        private static void PrintSlice(bool[][] slice, int sliceNumber)
-        {
-            Console.WriteLine($"Slice #{sliceNumber}");
-            for (int r = 0; r < slice.Length; r++)
             {
-                bool[] row = slice[r];
-                for (int c = 0; c < row.Length; c++)
-                {
-                    Console.Write(row[c] ? 'T' : 'M');
-                }
-                Console.WriteLine();
-            }
         }
     }
 }
