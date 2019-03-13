@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{574F8848-526B-4AFB-AEC6-42404D049743}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Pizza</RootNamespace>
-    <AssemblyName>Pizza</AssemblyName>
+    <RootNamespace>HashPizza</RootNamespace>
+    <AssemblyName>HashPizza</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
