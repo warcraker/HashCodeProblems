@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace HashPizza
+namespace HashPizza.Models
 {
     public class Pizza
     {
