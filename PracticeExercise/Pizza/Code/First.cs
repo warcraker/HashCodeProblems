@@ -16,8 +16,8 @@ namespace HashPizza
         public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
 
-            Pizza P = LoadPizza();
             Utils.BeginSection("Load pizza from file");
+            Pizza P = new Pizza(inputFilePath);
 
             Utils.BeginSection("Generate possible slices");
             List<bool[][]> sliceTypes;
@@ -40,86 +40,50 @@ namespace HashPizza
                 Console.WriteLine($"Slice types = {sliceTypes.Count}");
             }
 
-            {
-
-                for (int row = 0; row < P.R; row++)
             Utils.BeginSection("Locate slices");
             List<Slice> allSlices;
-                {
-                    legalSlices[row] = new int[P.C][]; 
-                }
+            {
+                allSlices = new List<Slice>();
+                int[][][] placedSliceIds = Utils.InitializeDefault2DVector<int[]>(P.R, P.C);
 
                 for (int pizzaRow = 0; pizzaRow < P.R; pizzaRow++)
                 {
                     Console.WriteLine($"Row #{pizzaRow}");
                     for (int pizzaCol = 0; pizzaCol < P.C; pizzaCol++)
                     {
-                        List<int> cellValidPermutations = new List<int>();
-                        for (int sliceNumber = 0; sliceNumber < validSlices.Length; sliceNumber++)
+                        placedSliceIds[pizzaRow][pizzaCol] = GetSliceIdsAtPosition(sliceTypes, P, pizzaRow, pizzaCol);
+                    }
+                }
+
+                for (int row = 0; row < placedSliceIds.Length; row++)
+                {
+                    for (int col = 0; col < placedSliceIds[row].Length; col++)
+                    {
+                        foreach (int sliceTypeId in placedSliceIds[row][col])
                         {
-                            bool[][] slice = validSlices[sliceNumber];
-
-                            int height = slice.Length;
-                            int width = slice[0].Length;
-
-                            if (height + pizzaRow <= P.R && width + pizzaCol <= P.C)
-                            {
-                                bool isValid = true;
-
-                                for (int sliceRow = 0; sliceRow < height; sliceRow++)
-                                {
-                                    for (int sliceCol = 0; sliceCol < width; sliceCol++)
-                                    {
-                                        if (slice[sliceRow][sliceCol] != P[pizzaRow + sliceRow][pizzaCol + sliceCol])
-                                        {
-                                            isValid = false;
-                                            break;
-                                        }
-                                    }
-                                    if (!isValid)
-                                    {
-                                        break;
-                                    }
-                                }
-
-                                if (isValid)
-                                {
-                                    cellValidPermutations.Add(sliceNumber);
-                                }
-                            }
+                            bool[][] sliceType = sliceTypes[sliceTypeId];
+                            allSlices.Add(new Slice(
+                                row, 
+                                col, 
+                                row + sliceType.Length - 1, 
+                                col + sliceType[0].Length - 1));
                         }
-                        legalSlices[pizzaRow][pizzaCol] = cellValidPermutations.ToArray();
                     }
                 }
             }
 
-            }
-
-
-            Utils.BeginSection("Save all slices to file");
+            Utils.BeginSection("Save slices to file");
             {
-                string outPath = Path.Combine(args[0], "output");
-                Directory.CreateDirectory(outPath);
-                DateTime now = DateTime.Now;
-                outPath = Path.Combine(outPath, $"{now.Month}_{now.Day}_{now.Hour}.{now.Minute}.{now.Second}.txt");
-                Console.WriteLine($"Output file: {outPath}");
-                using (StreamWriter stream = File.CreateText(outPath))
+                Directory.CreateDirectory(outputFolderPath);
+                string outputFilePath = Path.Combine(outputFolderPath, GetOutputFileName(P.InputFileName));
+
+                Console.WriteLine($"Output file: {outputFilePath}");
+                using (StreamWriter stream = File.CreateText(outputFilePath))
                 {
-                    stream.NewLine = "\n";
-                    for (int row = 0; row < P.R; row++)
+                    stream.WriteLine(allSlices.Count);
+                    foreach (Slice slice in allSlices)
                     {
-                        Console.WriteLine($"Row #{row}");
-                        for (short col = 0; col < P.C; col++)
-                        {
-                            int[] sliceNumbers = legalSlices[row][col];
-                            for (short sliceIndex = 0; sliceIndex < sliceNumbers.Length; sliceIndex++)
-                            {
-                                int sliceNumber = sliceNumbers[sliceIndex];
-                                bool[][] slice = validSlices[sliceNumber];
-                                string line = $"{row} {col} {row + slice.Length - 1} {col + slice[0].Length - 1}";
-                                stream.WriteLine(line);
-                            }
-                        }
+                        stream.WriteLine(slice.ToString());
                     }
                 }
             }
@@ -127,19 +91,52 @@ namespace HashPizza
             Utils.EndProgram();
         }
 
-        private static Pizza LoadPizza()
+        private static int[] GetSliceIdsAtPosition(List<bool[][]> genericValidSlices, Pizza pizza, int pizzaRow, int pizzaCol)
         {
-            string rootPath = Utils.GetAppRootFolder();
-            ProblemFiles files = new ProblemFiles(rootPath);
-            InputFile[] inputFiles = files.InputFiles.ToArray();
+            List<int> cellValidPermutations = new List<int>();
+            for (int sliceNumber = 0; sliceNumber < genericValidSlices.Count; sliceNumber++)
+            {
+                bool[][] slice = genericValidSlices[sliceNumber];
 
-            int selectedFileIndex = Utils.SelectOption(inputFiles.Select(f => f.FileName).ToArray());
-            string selectedFilePath = inputFiles[selectedFileIndex].FullPath;
+                int height = slice.Length;
+                int width = slice[0].Length;
 
-            return new Pizza(selectedFilePath);
+                if (height + pizzaRow <= pizza.R && width + pizzaCol <= pizza.C)
+                {
+                    bool isValid = true;
+
+                    for (int sliceRow = 0; sliceRow < height; sliceRow++)
+                    {
+                        for (int sliceCol = 0; sliceCol < width; sliceCol++)
+                        {
+                            if (slice[sliceRow][sliceCol] != pizza[pizzaRow + sliceRow][pizzaCol + sliceCol])
+                            {
+                                isValid = false;
+                                break;
+                            }
+                        }
+                        if (!isValid)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (isValid)
+                    {
+                        cellValidPermutations.Add(sliceNumber);
+                    }
+                }
+            }
+
+            return cellValidPermutations.ToArray();
         }
 
-        static IEnumerable<bool[][]> GenerateSlices(short height, short width, short minIngredients)
+        private static Pizza LoadPizza(ProblemFiles files)
+        {
+            return 
+        }
+
+        private static IEnumerable<bool[][]> GenerateSlicesTypes(short height, short width, short minIngredients)
         {
             int seed = 1 << (height * width);
             int initialMask = seed >> 1;
@@ -182,7 +179,9 @@ namespace HashPizza
             } while (seed >= 0);
         }
 
-            {
+        private static string GetOutputFileName(string inputFileName)
+        {
+            return $"[{inputFileName}][{DateTime.Now:yyyy-MM-dd_HH-mm-ss}].txt";
         }
     }
 }
