@@ -13,9 +13,9 @@ namespace HashPizza
     {
         public static bool ValidateOutput(string inputFilePath, string outputFilePath, out IList<string> errors)
         {
-            Pizza P = null; // TODO use > public static Pizza ReadInputFile(string path)
-
+            Pizza P = new Pizza(inputFilePath);
             errors = new List<string>();
+
             string[] outputLines = Utils.GetFileLines(outputFilePath);
             int S;
 
