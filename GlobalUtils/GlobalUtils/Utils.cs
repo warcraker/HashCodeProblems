@@ -67,12 +67,8 @@ namespace HashCode.Common
         }
         public static void EndProgram()
         {
-            Console.WriteLine($"[{_globalTimer.Elapsed}] FINISHED {_currentSection}");
-            Console.WriteLine($"TIME: {_sectionTimer.Elapsed}");
-            Console.WriteLine();
+            PrintPreviousSectionEnd();
 
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine("--- FINISHED ---");
             Console.WriteLine("Press enter to close...");
             Console.ReadLine();
