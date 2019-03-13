@@ -13,7 +13,7 @@ namespace HashPizza
         // 'M' => false Mushroom
         // [row][col]
 
-        static void Main(string[] args)
+        public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
             Utils.SetLinesToRead(new string[] { "3" });
 
