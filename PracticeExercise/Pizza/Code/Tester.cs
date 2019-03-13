@@ -26,15 +26,15 @@ namespace HashPizza
             }
             else if (S < 0)
             {
-                errors.Add("S cannot be a negative number");
+                errors.Add("S (First line) cannot be a negative number");
             }
             else if (S > P.R * P.C)
             {
-                errors.Add("S cannot be greater than R x C");
+                errors.Add("S (First line) cannot be greater than R x C");
             }
             else if (S != outputLines.Length - 1)
             {
-                errors.Add($"S must be the number of slices. S = {S}. Number of slices = {outputLines.Length - 1}");
+                errors.Add($"S (First line) must be the number of slices. S = {S}. Number of slices = {outputLines.Length - 1}");
             }
 
             bool[][] cellsInSlice = Utils.InitializeDefault2DVector<bool>(P.R, P.C);
