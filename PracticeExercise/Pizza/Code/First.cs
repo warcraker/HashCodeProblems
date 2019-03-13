@@ -19,12 +19,11 @@ namespace HashPizza
             Pizza P = LoadPizza();
             Utils.BeginSection("Load pizza from file");
 
-
-            bool[][][] validSlices; // [SliceNumber][row][col]
             Utils.BeginSection("Generate possible slices");
+            List<bool[][]> sliceTypes;
             {
-                List<bool[][]> validSlicesList = new List<bool[][]>();
-                short minimumSliceArea = (short)(P.L * 2);
+                sliceTypes = new List<bool[][]>();
+                int minimumSliceArea = P.L * 2;
                 for (short h = 1; h <= P.R; h++)
                 {
                     for (short w = 1; w <= P.C; w++)
@@ -33,21 +32,19 @@ namespace HashPizza
 
                         if (minimumSliceArea <= sliceArea && sliceArea <= P.H)
                         {
-                            validSlicesList.AddRange(GenerateSlices(h, w, P.L));
+                            sliceTypes.AddRange(GenerateSlicesTypes(h, w, P.L));
                         }
                     }
                 }
 
-                validSlices = validSlicesList.ToArray();
                 Console.WriteLine($"Slice types = {sliceTypes.Count}");
             }
 
-            int[][][] legalSlices; // [row][col][SliceNumbers]
             {
-                legalSlices = new int[P.R][][];
 
                 for (int row = 0; row < P.R; row++)
             Utils.BeginSection("Locate slices");
+            List<Slice> allSlices;
                 {
                     legalSlices[row] = new int[P.C][]; 
                 }
