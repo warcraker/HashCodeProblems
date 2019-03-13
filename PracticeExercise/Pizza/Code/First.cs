@@ -16,12 +16,12 @@ namespace HashPizza
         public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
 
-            Utils.BeginSection("File load");
             Pizza P = LoadPizza();
+            Utils.BeginSection("Load pizza from file");
 
 
-            Utils.BeginSection("Valid slices creation");
             bool[][][] validSlices; // [SliceNumber][row][col]
+            Utils.BeginSection("Generate possible slices");
             {
                 List<bool[][]> validSlicesList = new List<bool[][]>();
                 short minimumSliceArea = (short)(P.L * 2);
@@ -39,15 +39,15 @@ namespace HashPizza
                 }
 
                 validSlices = validSlicesList.ToArray();
-                Console.WriteLine($"Valid slices = {validSlices.Length}");
+                Console.WriteLine($"Slice types = {sliceTypes.Count}");
             }
 
-            Utils.BeginSection("Legal slices placement");
             int[][][] legalSlices; // [row][col][SliceNumbers]
             {
                 legalSlices = new int[P.R][][];
 
                 for (int row = 0; row < P.R; row++)
+            Utils.BeginSection("Locate slices");
                 {
                     legalSlices[row] = new int[P.C][]; 
                 }
