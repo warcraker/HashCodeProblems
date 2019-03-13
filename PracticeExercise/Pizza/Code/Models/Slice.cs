@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashPizza.Models
 {
@@ -12,20 +8,6 @@ namespace HashPizza.Models
         public short C1 { get; }
         public short R2 { get; }
         public short C2 { get; }
-        public int Width
-        {
-            get
-            {
-                return Math.Abs(this.R1 - this.R2) + 1;
-            }
-        }
-        public int Heigth
-        {
-            get
-            {
-                return Math.Abs(this.C1 - this.C2) + 1;
-            }
-        }
 
         public Slice(int r1, int c1, int r2, int c2)
         {
