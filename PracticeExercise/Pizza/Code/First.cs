@@ -131,11 +131,6 @@ namespace HashPizza
             return cellValidPermutations.ToArray();
         }
 
-        private static Pizza LoadPizza(ProblemFiles files)
-        {
-            return 
-        }
-
         private static IEnumerable<bool[][]> GenerateSlicesTypes(short height, short width, short minIngredients)
         {
             int seed = 1 << (height * width);
