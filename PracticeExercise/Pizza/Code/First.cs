@@ -15,7 +15,6 @@ namespace HashPizza
 
         public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
-
             Utils.BeginSection("Load pizza from file");
             Pizza P = new Pizza(inputFilePath);
 
@@ -87,8 +86,6 @@ namespace HashPizza
                     }
                 }
             }
-
-            Utils.EndProgram();
         }
 
         private static int[] GetSliceIdsAtPosition(List<bool[][]> genericValidSlices, Pizza pizza, int pizzaRow, int pizzaCol)

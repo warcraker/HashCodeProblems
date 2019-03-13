@@ -20,7 +20,7 @@ namespace HashPizza
 
             First.GenerateFileWithAllSlices(selectedFilePath, Path.Combine(rootPath, "Temp"));
 
-            Console.ReadLine();
+            Utils.EndProgram();
         }
     }
 }
