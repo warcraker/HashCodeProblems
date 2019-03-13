@@ -7,10 +7,11 @@ using HashCode.Common;
 
 namespace HashPizza
 {
-    class First
+    public static class First
     {
         // 'T' => true Tomato
         // 'M' => false Mushroom
+        // [row][col]
 
         static void Main(string[] args)
         {
