@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="First.cs" />
+    <Compile Include="Greedy.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Models\Tree.cs" />
