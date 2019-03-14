@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GlobalUtils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -124,7 +125,14 @@ namespace HashCode.Common
         {
             Console.ResetColor();
         }
-        public static int SelectOption(string[] options)
+        public static InputFile SelectInputFile(ProblemFiles files)
+        {
+            InputFile[] inputFiles = files.InputFiles.ToArray();
+            int selectedOption = SelectOption(inputFiles.Select(f => f.FileName).ToArray());
+
+            return inputFiles[selectedOption];
+        }
+        private static int SelectOption(string[] options)
         {
             int value;
             bool numberIsValid = false;
@@ -137,18 +145,9 @@ namespace HashCode.Common
                 {
                     Console.WriteLine($"\t[{i}] {options[i]}");
                 }
-                Console.WriteLine("[C] Close application");
                 Console.WriteLine("Write desired option and press [Enter]...");
 
                 string line = ReadLine();
-                if (line.Equals("c", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    Console.WriteLine("Closing application.");
-                    Console.WriteLine("Press enter...");
-                    Console.ReadLine();
-
-                    Environment.Exit(0);
-                }
 
                 bool inputIsNumeric = int.TryParse(line, out value);
                 if (!inputIsNumeric)
