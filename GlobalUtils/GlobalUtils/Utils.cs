@@ -94,9 +94,9 @@ namespace HashCode.Common
 
             return problemRootPathInfo.FullName;
         }
-        public static string[] GetFileLines(string filePath)
+        public static IEnumerable<string> GetFileLines(string filePath)
         {
-            return File.ReadAllLines(filePath).ToArray();
+            return File.ReadAllLines(filePath);
         }
 
         public static string ReadLine()

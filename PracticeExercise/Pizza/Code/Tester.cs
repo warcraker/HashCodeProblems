@@ -17,7 +17,7 @@ namespace HashPizza
             Pizza P = new Pizza(inputFilePath);
             errors = new List<string>();
 
-            string[] outputLines = Utils.GetFileLines(outputFilePath);
+            string[] outputLines = Utils.GetFileLines(outputFilePath).ToArray();
             int S;
 
             if (!int.TryParse(outputLines[0], out S))
