@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HashPizza
 {
-    class Tester
+    public class Tester
     {
         public static bool ValidateOutput(string inputFilePath, string outputFilePath, out IList<string> errors)
         {
