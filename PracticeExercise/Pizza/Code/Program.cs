@@ -1,6 +1,7 @@
 ﻿using GlobalUtils;
 using HashCode.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -14,11 +15,9 @@ namespace HashPizza
 
             string rootPath = Utils.GetAppRootFolder();
             ProblemFiles files = new ProblemFiles(rootPath);
-            InputFile[] inputFiles = files.InputFiles.ToArray();
-            int selectedFileIndex = Utils.SelectOption(inputFiles.Select(f => f.FileName).ToArray());
-            string selectedFilePath = inputFiles[selectedFileIndex].FullPath;
+            InputFile selectedFile = Utils.SelectInputFile(files); 
 
-            First.GenerateFileWithAllSlices(selectedFilePath, Path.Combine(rootPath, "Temp"));
+            First.GenerateFileWithAllSlices(selectedFile.FullPath, Path.Combine(rootPath, "Temp"));
 
             Utils.EndProgram();
         }
