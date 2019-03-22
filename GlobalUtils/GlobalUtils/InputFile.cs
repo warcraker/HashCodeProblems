@@ -1,5 +1,6 @@
 ﻿using HashCode.Common;
 using System.IO;
+using System.Linq;
 
 namespace GlobalUtils
 {
@@ -11,16 +12,9 @@ namespace GlobalUtils
         {
             get
             {
-                if (this.fileLines == null)
-                {
-                    this.fileLines = Utils.GetFileLines(this.FullPath);
-                }
-
-                return this.fileLines;
+                return Utils.GetFileLines(this.FullPath).ToArray();
             }
         }
-
-        private string[] fileLines = null;
 
         public InputFile (string fullPath)
         {
