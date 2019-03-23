@@ -126,7 +126,6 @@ namespace HashPizza
 
             return cellValidPermutations.ToArray();
         }
-
         private static IEnumerable<bool[][]> GenerateSlicesTypes(short height, short width, short minIngredients)
         {
             int seed = 1 << (height * width);
@@ -169,7 +168,6 @@ namespace HashPizza
                 seed--;
             } while (seed >= 0);
         }
-
         private static string GetOutputFileName(string inputFileName)
         {
             return $"[{inputFileName}][{DateTime.Now:yyyy-MM-dd_HH-mm-ss}].txt";

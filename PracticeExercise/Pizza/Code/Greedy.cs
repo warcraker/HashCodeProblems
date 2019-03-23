@@ -34,10 +34,10 @@ namespace HashPizza
 
             foreach (Slice slice in orderedSlices)
             {
-                if(!sliceOverlaps(usedCells, slice))
+                if(!SliceOverlaps(usedCells, slice))
                 {
                     usedSlices.Add(slice);
-                    setUsedCells(usedCells, slice);
+                    SetUsedCells(usedCells, slice);
                 }
             }
 
@@ -52,7 +52,7 @@ namespace HashPizza
             File.WriteAllLines(Path.Combine(outputFolderPath, fileName), linesToWrite);
         }
 
-        private static bool sliceOverlaps(bool[][] usedCells, Slice slice)
+        private static bool SliceOverlaps(bool[][] usedCells, Slice slice)
         {
             bool overlaps = false;
             for (int r = slice.R1; r < slice.R2; r++)
@@ -73,7 +73,7 @@ namespace HashPizza
 
             return overlaps;
         }
-        private static void setUsedCells(bool[][] usedCells, Slice slice)
+        private static void SetUsedCells(bool[][] usedCells, Slice slice)
         {
             for (int r = slice.R1; r < slice.R2; r++)
             {
