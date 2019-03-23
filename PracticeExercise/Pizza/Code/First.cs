@@ -14,10 +14,10 @@ namespace HashPizza
 
         public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
-            Utils.BeginSection("Load pizza from file");
+            BenchmarkHelper.BeginSection("Load pizza from file");
             Pizza P = new Pizza(inputFilePath);
 
-            Utils.BeginSection("Generate possible slices");
+            BenchmarkHelper.BeginSection("Generate possible slices");
             List<bool[][]> sliceTypes;
             {
                 sliceTypes = new List<bool[][]>();
@@ -38,7 +38,7 @@ namespace HashPizza
                 Console.WriteLine($"Slice types = {sliceTypes.Count}");
             }
 
-            Utils.BeginSection("Locate slices");
+            BenchmarkHelper.BeginSection("Locate slices");
             List<Slice> allSlices;
             {
                 allSlices = new List<Slice>();
@@ -70,7 +70,7 @@ namespace HashPizza
                 }
             }
 
-            Utils.BeginSection("Save slices to file");
+            BenchmarkHelper.BeginSection("Save slices to file");
             {
                 Directory.CreateDirectory(outputFolderPath);
                 string outputFilePath = Path.Combine(outputFolderPath, GetOutputFileName(P.InputFileName));

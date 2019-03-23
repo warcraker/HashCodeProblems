@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InputFile.cs" />
-    <Compile Include="ProblemFiles.cs" />
+    <Compile Include="BenchmarkHelper.cs" />
+    <Compile Include="FileHelper.cs" />
+    <Compile Include="TextHelper.cs" />
+    <Compile Include="Models\InputFile.cs" />
+    <Compile Include="Models\ProblemFiles.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

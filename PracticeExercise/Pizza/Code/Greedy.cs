@@ -1,4 +1,5 @@
 ﻿using GlobalUtils;
+using GlobalUtils.Models;
 using HashCode.Common;
 using HashPizza.Models;
 using System;
@@ -17,7 +18,7 @@ namespace HashPizza
             Pizza p = new Pizza(inputFile.FullPath);
             bool[][] usedCells = Utils.InitializeDefault2DVector<bool>(p.R, p.C);
 
-            IEnumerable<Slice> allSlices = Utils.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
+            IEnumerable<Slice> allSlices = FileHelper.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
             {
                 string[] lineSplitted = line.Split(' ');
 

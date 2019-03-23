@@ -1,4 +1,5 @@
 ﻿using GlobalUtils;
+using GlobalUtils.Models;
 using HashCode.Common;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,9 @@ namespace HashPizza
     {
         static void Main(string[] args)
         {
-            Utils.Init();
-
-            string rootPath = Utils.GetAppRootFolder();
+            string rootPath = FileHelper.GetAppRootFolder();
             ProblemFiles files = new ProblemFiles(rootPath);
-            InputFile selectedFile = Utils.SelectInputFile(files); 
+            InputFile selectedFile = FileHelper.SelectInputFile(files); 
 
             First.GenerateFileWithAllSlices(selectedFile.FullPath, Path.Combine(rootPath, "Temp"));
 

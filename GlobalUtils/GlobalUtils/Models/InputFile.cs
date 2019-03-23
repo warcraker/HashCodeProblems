@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace GlobalUtils
+namespace GlobalUtils.Models
 {
     public class InputFile
     {
@@ -12,7 +12,7 @@ namespace GlobalUtils
         {
             get
             {
-                return Utils.GetFileLines(this.FullPath).ToArray();
+                return FileHelper.GetFileLines(this.FullPath).ToArray();
             }
         }
 

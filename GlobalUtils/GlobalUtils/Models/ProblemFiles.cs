@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GlobalUtils
+namespace GlobalUtils.Models
 {
     public class ProblemFiles
     {

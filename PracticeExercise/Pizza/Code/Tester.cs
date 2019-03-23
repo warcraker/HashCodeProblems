@@ -17,7 +17,7 @@ namespace HashPizza
             Pizza P = new Pizza(inputFilePath);
             errors = new List<string>();
 
-            string[] outputLines = Utils.GetFileLines(outputFilePath).ToArray();
+            string[] outputLines = FileHelper.GetFileLines(outputFilePath).ToArray();
             int S;
 
             if (!int.TryParse(outputLines[0], out S))
@@ -137,7 +137,7 @@ namespace HashPizza
         public static int CalculatePoints(string outputFilePath)
         {
             int points = 0;
-            string[] lines = Utils.GetFileLines(outputFilePath).Skip(1).ToArray();
+            string[] lines = FileHelper.GetFileLines(outputFilePath).Skip(1).ToArray();
 
             foreach (string line in lines)
             {
