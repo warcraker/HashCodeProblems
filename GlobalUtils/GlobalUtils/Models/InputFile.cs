@@ -1,8 +1,7 @@
-﻿using HashCode.Common;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
-namespace GlobalUtils.Models
+namespace HashCode.Common.Models
 {
     public class InputFile
     {

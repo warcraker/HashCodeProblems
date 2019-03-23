@@ -1,13 +1,10 @@
-﻿using GlobalUtils;
-using GlobalUtils.Models;
-using HashCode.Common;
+﻿using HashCode.Common;
+using HashCode.Common.Models;
 using HashPizza.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashPizza
 {
