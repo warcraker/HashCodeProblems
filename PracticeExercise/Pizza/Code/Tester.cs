@@ -134,7 +134,7 @@ namespace HashPizza
 
             return errors.Count == 0;
         }
-        public static int CalculatePoints(string outputFilePath)
+        public static int GetPoints(string outputFilePath)
         {
             int points = 0;
             string[] lines = Utils.GetFileLines(outputFilePath).Skip(1).ToArray();
