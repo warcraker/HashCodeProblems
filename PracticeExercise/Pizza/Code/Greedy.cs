@@ -17,7 +17,7 @@ namespace HashPizza
             Pizza p = new Pizza(inputFile.FullPath);
             bool[][] usedCells = Utils.InitializeDefault2DVector<bool>(p.R, p.C);
 
-            IEnumerable<Slice> allSlices = Utils.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
+            Slice[] allSlices = Utils.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
             {
                 string[] lineSplitted = line.Split(' ');
 
@@ -27,8 +27,8 @@ namespace HashPizza
                 int c2 = int.Parse(lineSplitted[3]);
 
                 return new Slice(r1, c1, r2, c2);
-            });
-            IEnumerable<Slice> orderedSlices = allSlices.OrderBy(s => s.Area);
+            }).ToArray();
+            Slice[] orderedSlices = allSlices.OrderBy(s => s.Area).ToArray();
             List<Slice> usedSlices = new List<Slice>();
 
             foreach (Slice slice in orderedSlices)

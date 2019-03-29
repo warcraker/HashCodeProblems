@@ -9,7 +9,7 @@ namespace GlobalUtils
 {
     public class ProblemFiles
     {
-        public IEnumerable<InputFile> InputFiles { get; }
+        public InputFile[] InputFiles { get; }
         public string TemporalPath { get; }
         public string OutputPath { get; }
 

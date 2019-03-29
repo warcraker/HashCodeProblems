@@ -1,5 +1,6 @@
 ﻿using HashCode.Common;
 using System.IO;
+using System.Linq;
 
 namespace GlobalUtils
 {
@@ -13,7 +14,7 @@ namespace GlobalUtils
             {
                 if (this.fileLines == null)
                 {
-                    this.fileLines = Utils.GetFileLines(this.FullPath);
+                    this.fileLines = Utils.GetFileLines(this.FullPath).ToArray();
                 }
 
                 return this.fileLines;
