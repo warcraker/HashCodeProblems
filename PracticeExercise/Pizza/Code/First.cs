@@ -12,7 +12,7 @@ namespace HashPizza
         // 'M' => false Mushroom
         // [row][col]
 
-        public static void GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
+        public static string GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
             Utils.BeginSection("Load pizza from file");
             Pizza P = new Pizza(inputFilePath);
@@ -71,9 +71,10 @@ namespace HashPizza
             }
 
             Utils.BeginSection("Save slices to file");
+            string outputFilePath;
             {
                 Directory.CreateDirectory(outputFolderPath);
-                string outputFilePath = Path.Combine(outputFolderPath, GetOutputFileName(P.InputFileName));
+                outputFilePath = Path.Combine(outputFolderPath, GetOutputFileName(P.InputFileName));
 
                 Console.WriteLine($"Output file: {outputFilePath}");
                 using (StreamWriter stream = File.CreateText(outputFilePath))
@@ -85,6 +86,8 @@ namespace HashPizza
                     }
                 }
             }
+
+            return outputFilePath;
         }
 
         private static int[] GetSliceIdsAtPosition(List<bool[][]> genericValidSlices, Pizza pizza, int pizzaRow, int pizzaCol)

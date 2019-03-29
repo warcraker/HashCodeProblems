@@ -12,7 +12,7 @@ namespace HashPizza
 {
     public class Greedy
     {
-        public static void GenerateGreedySolution(InputFile inputFile, string withAllSlicesFilePath, string outputFolderPath)
+        public static string GenerateGreedySolution(InputFile inputFile, string withAllSlicesFilePath, string outputFolderPath)
         {
             Pizza p = new Pizza(inputFile.FullPath);
             bool[][] usedCells = Utils.InitializeDefault2DVector<bool>(p.R, p.C);
@@ -47,8 +47,10 @@ namespace HashPizza
             linesToWrite.AddRange(usedSlices.Select(s => s.ToString()));
 
             string fileName = $"[{inputFile.FileName}][Greedy][{DateTime.Now:yyyy-MM-dd_HH-mm-ss}].txt";
+            string fileFullPath = Path.Combine(outputFolderPath, fileName);
+            File.WriteAllLines(fileFullPath, linesToWrite);
 
-            File.WriteAllLines(Path.Combine(outputFolderPath, fileName), linesToWrite);
+            return fileFullPath;
         }
 
         private static bool sliceOverlaps(bool[][] usedCells, Slice slice)
