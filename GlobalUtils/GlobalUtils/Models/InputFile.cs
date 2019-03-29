@@ -1,8 +1,7 @@
-﻿using HashCode.Common;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
-namespace GlobalUtils
+namespace HashCode.Common.Models
 {
     public class InputFile
     {
@@ -12,16 +11,9 @@ namespace GlobalUtils
         {
             get
             {
-                if (this.fileLines == null)
-                {
-                    this.fileLines = Utils.GetFileLines(this.FullPath).ToArray();
-                }
-
-                return this.fileLines;
+                return FileHelper.GetFileLines(this.FullPath).ToArray();
             }
         }
-
-        private string[] fileLines = null;
 
         public InputFile (string fullPath)
         {

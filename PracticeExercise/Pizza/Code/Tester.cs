@@ -12,29 +12,28 @@ namespace HashPizza
 {
     public class Tester
     {
-        public static bool ValidateOutput(string inputFilePath, string outputFilePath, out IList<string> errors)
+        public static IEnumerable<string> GetOutputErrors(string inputFilePath, string outputFilePath)
         {
             Pizza P = new Pizza(inputFilePath);
-            errors = new List<string>();
 
-            string[] outputLines = Utils.GetFileLines(outputFilePath).ToArray();
+            string[] outputLines = FileHelper.GetFileLines(outputFilePath).ToArray();
             int S;
 
             if (!int.TryParse(outputLines[0], out S))
             {
-                errors.Add("First line must be one line containing a single natural number ​S (0 ≤ S ≤ RxC), representing the total number of slices to be cut");
+                yield return "First line must be one line containing a single natural number ​S (0 ≤ S ≤ RxC), representing the total number of slices to be cut";
             }
             else if (S < 0)
             {
-                errors.Add("S (First line) cannot be a negative number");
+                yield return "S (First line) cannot be a negative number";
             }
             else if (S > P.R * P.C)
             {
-                errors.Add("S (First line) cannot be greater than R x C");
+                yield return "S (First line) cannot be greater than R x C";
             }
             else if (S != outputLines.Length - 1)
             {
-                errors.Add($"S (First line) must be the number of slices. S = {S}. Number of slices = {outputLines.Length - 1}");
+                yield return $"S (First line) must be the number of slices. S = {S}. Number of slices = {outputLines.Length - 1}";
             }
 
             bool[][] cellsInSlice = Utils.InitializeDefault2DVector<bool>(P.R, P.C);
@@ -46,7 +45,7 @@ namespace HashPizza
 
                 if (lineSplitted.Length != 4)
                 {
-                    errors.Add($"Slice #{lineNumber} must be 4 numbers separated by one space. Text: '{line}'");
+                    yield return $"Slice #{lineNumber} must be 4 numbers separated by one space. Text: '{line}'";
                 }
                 else
                 {
@@ -57,29 +56,29 @@ namespace HashPizza
                     bool c2Ok = int.TryParse(lineSplitted[3], out c2);
                     if (!(r1Ok && c1Ok && r2Ok && c2Ok))
                     {
-                        errors.Add($"Slice #{lineNumber} have an invalid format. Must be 'R1 C1 R2 C2'. Text: '{line}'");
+                        yield return $"Slice #{lineNumber} have an invalid format. Must be 'R1 C1 R2 C2'. Text: '{line}'";
                     }
                     else
                     {
                         bool coordinateOutsideOfRange = false;
                         if (!(0 <= r1 && r1 < P.R))
                         {
-                            errors.Add($"Slice #{lineNumber}. R1 is outside of range (0 <= R1 < R). R1 = {r1}. R = {P.R}");
+                            yield return $"Slice #{lineNumber}. R1 is outside of range (0 <= R1 < R). R1 = {r1}. R = {P.R}";
                             coordinateOutsideOfRange = true;
                         }
                         if (!(0 <= c1 && c1 < P.C))
                         {
-                            errors.Add($"Slice #{lineNumber}. C1 is outside of range (0 <= C1 < C). C1 = {c1}. C = {P.C}");
+                            yield return $"Slice #{lineNumber}. C1 is outside of range (0 <= C1 < C). C1 = {c1}. C = {P.C}";
                             coordinateOutsideOfRange = true;
                         }
                         if (!(0 <= r2 && r2 < P.R))
                         {
-                            errors.Add($"Slice #{lineNumber}. R2 is outside of range (0 <= R2 < R). R2 = {r2}. R = {P.R}");
+                            yield return $"Slice #{lineNumber}. R2 is outside of range (0 <= R2 < R). R2 = {r2}. R = {P.R}";
                             coordinateOutsideOfRange = true;
                         }
                         if (!(0 <= c2 && c2 < P.C))
                         {
-                            errors.Add($"Slice #{lineNumber}. C2 is outside of range (0 <= C2 < C). C2 = {c2}. C = {P.C}");
+                            yield return $"Slice #{lineNumber}. C2 is outside of range (0 <= C2 < C). C2 = {c2}. C = {P.C}";
                             coordinateOutsideOfRange = true;
                         }
 
@@ -93,7 +92,7 @@ namespace HashPizza
                             int size = (rEnd - rIni + 1) * (cEnd - cIni + 1);
                             if (size > P.H)
                             {
-                                errors.Add($"Slice #{lineNumber} is bigger than H. Size = {size}. H = {P.H}");
+                                yield return $"Slice #{lineNumber} is bigger than H. Size = {size}. Allowed (H) = {P.H}";
                             }
 
                             bool sliceOverlaps = false;
@@ -120,24 +119,21 @@ namespace HashPizza
                             }
                             if (sliceOverlaps)
                             {
-                                errors.Add($"Line #{lineNumber} overlaps. Text: '{line}'");
+                                yield return $"Line #{lineNumber} overlaps. Text: '{line}'";
                             }
                             if (tomatoes < P.L || mushrooms < P.L)
                             {
-                                errors.Add($"Line #{lineNumber} does not have enough ingredients."
-                                    + $" Tomatoes = {tomatoes}. Mushrooms = {mushrooms}. L = {P.L}");
+                                yield return $"Line #{lineNumber} does not have enough ingredients. Tomatoes = {tomatoes}. Mushrooms = {mushrooms}. L = {P.L}";
                             }
                         }
                     }
                 }
             }
-
-            return errors.Count == 0;
         }
         public static int GetPoints(string outputFilePath)
         {
             int points = 0;
-            string[] lines = Utils.GetFileLines(outputFilePath).Skip(1).ToArray();
+            string[] lines = FileHelper.GetFileLines(outputFilePath).Skip(1).ToArray();
 
             foreach (string line in lines)
             {

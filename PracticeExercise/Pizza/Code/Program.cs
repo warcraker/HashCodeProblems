@@ -1,5 +1,6 @@
 ﻿using GlobalUtils;
 using HashCode.Common;
+using HashCode.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,31 +12,28 @@ namespace HashPizza
     {
         static void Main(string[] args)
         {
-            Utils.Init();
-
-            string rootPath = Utils.GetAppRootFolder();
+            string rootPath = FileHelper.GetAppRootFolder();
             ProblemFiles files = new ProblemFiles(rootPath);
-            InputFile inputFile = Utils.SelectInputFile(files);
+            InputFile inputFile = FileHelper.SelectInputFile(files);
 
-            Utils.BeginSection("Generate intermediate file");
+            BenchmarkHelper.BeginSection("Generate intermediate file");
             string temporalFilePath = First.GenerateFileWithAllSlices(inputFile.FullPath, Path.Combine(rootPath, "Temp"));
             Console.WriteLine("..."); Console.ReadLine();
 
-            Utils.BeginSection("Generate solution");
+            BenchmarkHelper.BeginSection("Generate solution");
             string greedySolutionFilePath = Greedy.GenerateGreedySolution(inputFile, temporalFilePath, Path.Combine(rootPath, "Out"));
             Console.WriteLine("..."); Console.ReadLine();
 
-            Utils.BeginSection("Validate solution");
-            IList<string> errors;
-            bool isValid = Tester.ValidateOutput(inputFile.FullPath, greedySolutionFilePath, out errors);
-            Console.WriteLine($"File is valid: {isValid}");
+            BenchmarkHelper.BeginSection("Validate solution");
+            IEnumerable<string> errors = Tester.GetOutputErrors(inputFile.FullPath, greedySolutionFilePath);
+            Console.WriteLine($"File has errors: {errors.Any()}");
             foreach (string error in errors)
             {
                 Console.WriteLine(error);
             }
             Console.WriteLine("..."); Console.ReadLine();
 
-            Utils.BeginSection("Count points");
+            BenchmarkHelper.BeginSection("Count points");
             int points = Tester.GetPoints(greedySolutionFilePath);
             Console.WriteLine($"Total points: {points}");
 

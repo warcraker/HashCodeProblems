@@ -14,10 +14,10 @@ namespace HashPizza
 
         public static string GenerateFileWithAllSlices(string inputFilePath, string outputFolderPath)
         {
-            Utils.BeginSection("Load pizza from file");
+            BenchmarkHelper.BeginSection("Load pizza from file");
             Pizza P = new Pizza(inputFilePath);
 
-            Utils.BeginSection("Generate possible slices");
+            BenchmarkHelper.BeginSection("Generate possible slices");
             List<bool[][]> sliceTypes;
             {
                 sliceTypes = new List<bool[][]>();
@@ -38,7 +38,7 @@ namespace HashPizza
                 Console.WriteLine($"Slice types = {sliceTypes.Count}");
             }
 
-            Utils.BeginSection("Locate slices");
+            BenchmarkHelper.BeginSection("Locate slices");
             List<Slice> allSlices;
             {
                 allSlices = new List<Slice>();
@@ -70,7 +70,7 @@ namespace HashPizza
                 }
             }
 
-            Utils.BeginSection("Save slices to file");
+            BenchmarkHelper.BeginSection("Save slices to file");
             string outputFilePath;
             {
                 Directory.CreateDirectory(outputFolderPath);
@@ -129,7 +129,6 @@ namespace HashPizza
 
             return cellValidPermutations.ToArray();
         }
-
         private static IEnumerable<bool[][]> GenerateSlicesTypes(short height, short width, short minIngredients)
         {
             int seed = 1 << (height * width);
@@ -172,7 +171,6 @@ namespace HashPizza
                 seed--;
             } while (seed >= 0);
         }
-
         private static string GetOutputFileName(string inputFileName)
         {
             return $"[{inputFileName}][{DateTime.Now:yyyy-MM-dd_HH-mm-ss}].txt";

@@ -1,5 +1,5 @@
-﻿using GlobalUtils;
-using HashCode.Common;
+﻿using HashCode.Common;
+using HashCode.Common.Models;
 using HashPizza.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace HashPizza
             Pizza p = new Pizza(inputFile.FullPath);
             bool[][] usedCells = Utils.InitializeDefault2DVector<bool>(p.R, p.C);
 
-            Slice[] allSlices = Utils.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
+            IEnumerable<Slice> allSlices = FileHelper.GetFileLines(inputFile.FullPath).Skip(1).Select(line =>
             {
                 string[] lineSplitted = line.Split(' ');
 
@@ -27,16 +27,16 @@ namespace HashPizza
                 int c2 = int.Parse(lineSplitted[3]);
 
                 return new Slice(r1, c1, r2, c2);
-            }).ToArray();
-            Slice[] orderedSlices = allSlices.OrderBy(s => s.Area).ToArray();
+            });
+            IEnumerable<Slice> orderedSlices = allSlices.OrderBy(s => s.Area);
             List<Slice> usedSlices = new List<Slice>();
 
             foreach (Slice slice in orderedSlices)
             {
-                if(!sliceOverlaps(usedCells, slice))
+                if(!SliceOverlaps(usedCells, slice))
                 {
                     usedSlices.Add(slice);
-                    setUsedCells(usedCells, slice);
+                    SetUsedCells(usedCells, slice);
                 }
             }
 
@@ -53,7 +53,7 @@ namespace HashPizza
             return fileFullPath;
         }
 
-        private static bool sliceOverlaps(bool[][] usedCells, Slice slice)
+        private static bool SliceOverlaps(bool[][] usedCells, Slice slice)
         {
             bool overlaps = false;
             for (int r = slice.R1; r < slice.R2; r++)
@@ -74,7 +74,7 @@ namespace HashPizza
 
             return overlaps;
         }
-        private static void setUsedCells(bool[][] usedCells, Slice slice)
+        private static void SetUsedCells(bool[][] usedCells, Slice slice)
         {
             for (int r = slice.R1; r < slice.R2; r++)
             {
